@@ -28,12 +28,17 @@ public class AssociativeArray<K, V> {
   /**
    * The size of the associative array (the number of key/value pairs).
    */
-  int size;
+  public int size;
+
+  /**
+   * The capacity of the associative array (the amount of space allocated).
+   */
+  int capacity = DEFAULT_CAPACITY;
 
   /**
    * The array of key/value pairs.
    */
-  KVPair<K, V> pairs[];
+  public KVPair<K, V> pairs[];
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -58,23 +63,26 @@ public class AssociativeArray<K, V> {
    * Create a copy of this AssociativeArray.
    */
   public AssociativeArray<K, V> clone() {
-    AssociativeArray<K,V> toReturn = new AssociativeArray<K,V>();
-    toReturn.size = this.size;
+    AssociativeArray<K,V> arr = new AssociativeArray<K, V>();
+    arr.size = this.size;
     for (int i = 0; i < size; i++) {
-      toReturn.pairs[i] = this.pairs[i];
+        arr.pairs[i] = new KVPair<K, V>(this.pairs[i].key, this.pairs[i].value);
     } // for
-    return toReturn; // STUB
+    return arr; 
   } // clone()
 
   /**
    * Convert the array to a string.
    */
   public String toString() {
-    String arrayPairs = this.pairs[0].toString();
+    if (this.size() == 0) {
+      return "{}";
+    } // if the array is empty
+    String arrayPairs = this.pairs[0].key + ": " + this.pairs[0].value;
     for (int i = 1; i < size; i++) {
-      arrayPairs = arrayPairs + ", " + this.pairs[i].toString();
+      arrayPairs = arrayPairs + ", " + this.pairs[i].key + ": " + this.pairs[i].value;
     }
-    return "[" + arrayPairs + "]";
+    return "{ " + arrayPairs + " }";
   } // toString()
 
   // +----------------+----------------------------------------------
@@ -86,17 +94,21 @@ public class AssociativeArray<K, V> {
    * get(key) will return value.
    */
   public void set(K key, V value) throws NullKeyException {
-    if (value == null) {
+    if (key == null) {
       throw new NullKeyException();
     } // if null key given
+    if (size >= capacity) {
+      this.expand();
+      capacity = capacity * 2;
+    } // if the array needs to expand
     try {
       int i = find(key);
       this.pairs[i].value = value;
-    } 
+    } // set an existing value to the new value
     catch (KeyNotFoundException e) {
-      this.pairs[size] = new KVPair<>(key, value);
+      this.pairs[size] = new KVPair<K, V>(key, value);
       size++;
-    }
+    } // add a new value to the array
   } // set(K,V)
 
   /**
@@ -162,12 +174,14 @@ public class AssociativeArray<K, V> {
    * Find the index of the first entry in `pairs` that contains key.
    * If no such entry is found, throws an exception.
    */
-  int find(K key) throws KeyNotFoundException {
+  public int find(K key) throws KeyNotFoundException {
     for (int i = 0; i < size; i++) {
+      //if (this.pairs[i].key == null || this.pairs[i].key == "") {
+      // new KeyNotFoundException(); }
       if (this.pairs[i].key == key) {
-        return i;
+        return i; 
       }
-    }
+    } 
     throw new KeyNotFoundException(); 
   } // find(K)
 
