@@ -10,4 +10,4 @@ Date: 2/21/2023
 Acknowledgments:
 Professor Rebelsky gave all of the code for KeyNotFoundException, KVPair, NullKeyException, AssociativeArrayExperiments, and ReportingAssociativeArray.
 He also gave most of the code for AssociativeArray leaving me to implement Stubs for clone, toString, set, get, hasKey, remove, and find.
-
+Diogo helped me figure out how I was using '==' wrong in my code.
