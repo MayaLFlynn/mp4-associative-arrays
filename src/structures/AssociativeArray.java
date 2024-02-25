@@ -19,7 +19,7 @@ public class AssociativeArray<K, V> {
   /**
    * The default capacity of the initial array.
    */
-  static final int DEFAULT_CAPACITY = 16;
+  static final int DEFAULT_CAPACITY = 4;
 
   // +--------+------------------------------------------------------
   // | Fields |
@@ -28,7 +28,7 @@ public class AssociativeArray<K, V> {
   /**
    * The size of the associative array (the number of key/value pairs).
    */
-  public int size;
+  int size;
 
   /**
    * The capacity of the associative array (the amount of space allocated).
@@ -38,7 +38,7 @@ public class AssociativeArray<K, V> {
   /**
    * The array of key/value pairs.
    */
-  public KVPair<K, V> pairs[];
+ KVPair<K, V> pairs[];
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -64,11 +64,17 @@ public class AssociativeArray<K, V> {
    */
   public AssociativeArray<K, V> clone() {
     AssociativeArray<K,V> arr = new AssociativeArray<K, V>();
-    arr.size = this.size;
-    for (int i = 0; i < size; i++) {
-        arr.pairs[i] = new KVPair<K, V>(this.pairs[i].key, this.pairs[i].value);
+    arr.size = 0;
+    for (int i = 0; i < this.size; i++) {
+      if (arr.size >= arr.capacity) {
+        arr.expand();
+        arr.capacity = arr.capacity *2;
+      }
+      arr.pairs[i] = new KVPair<K, V>(this.pairs[i].key, this.pairs[i].value);
+      arr.size++;
     } // for
-    return arr; 
+    
+    return arr;
   } // clone()
 
   /**
@@ -175,10 +181,10 @@ public class AssociativeArray<K, V> {
    * If no such entry is found, throws an exception.
    */
   public int find(K key) throws KeyNotFoundException {
-    for (int i = 0; i < size; i++) {
-      //if (this.pairs[i].key == null || this.pairs[i].key == "") {
-      // new KeyNotFoundException(); }
-      if (this.pairs[i].key == key) {
+    for (int i = 0; i < this.size(); i++) {
+      if (this.pairs[i].key == null || this.pairs[i].key == "") {
+       new KeyNotFoundException(); }
+      if (this.pairs[i].key.equals(key)) {
         return i; 
       }
     } 

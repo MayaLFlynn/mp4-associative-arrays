@@ -25,10 +25,13 @@ public class AssociativeArrayExperiments {
     PrintWriter pen = new PrintWriter(System.out, true);
 
     divider(pen);
-    expreimentStringsToStrings(pen);
+    //expreimentStringsToStrings(pen);
+    //divider(pen);
+    //experimentBigIntToBigInt(pen);
+    //divider(pen);
+    expirimentStrings(pen);
     divider(pen);
-    experimentBigIntToBigInt(pen);
-    divider(pen);
+    
   } // main(String[])
 
   // +-------------+-------------------------------------------------
@@ -60,6 +63,24 @@ public class AssociativeArrayExperiments {
     try { s2s.get("A"); } catch (Exception e) { }
   } // expreimentStringsToStrings
 
+  public static void expirimentStrings(PrintWriter pen) throws Exception {
+    AssociativeArray<Integer,String> si = 
+      new ReportingAssociativeArray<Integer,String>("si", pen);
+    AssociativeArray<Integer,String> si2 = 
+      new ReportingAssociativeArray<Integer,String>("si2", pen);
+    si.size();
+      for (int i = 0; i < 12; i++) {
+        si.hasKey(i);
+        try {
+          si.set(i, "Bob");
+        } catch (Exception e) {
+        }
+        si.hasKey(i);
+      }
+
+    
+    //String result = si.toString();
+  } //expirimentStrings
   /**
    * Our second experiment: Associative arrays with big integers as
    * keys and values.
