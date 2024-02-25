@@ -1,8 +1,13 @@
 Associative Arrays
 ==================
 
-Starter code for a project on associative arrays.
+Starter code for a project on associative arrays. Simple dictionary made with arrays of pairs.
 
-_Students must replace the contents of this file with appropriate
-contents, including author and date._
+Name: Maya Flynn
+Date: 2/21/2023
+
+
+Acknowledgments:
+Professor Rebelsky gave all of the code for KeyNotFoundException, KVPair, NullKeyException, AssociativeArrayExperiments, and ReportingAssociativeArray.
+He also gave most of the code for AssociativeArray leaving me to implement Stubs for clone, toString, set, get, hasKey, remove, and find.
 
