@@ -9,7 +9,7 @@ import structures.KeyNotFoundException;
 /**
  * Experiments with our AssociativeArray class.
  *
- * @author Your Name Here
+ * @author Maya Flynn
  * @author Samuel A. Rebelsky
  */
 public class AssociativeArrayExperiments {

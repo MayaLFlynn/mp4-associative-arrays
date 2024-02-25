@@ -1,13 +1,14 @@
 package structures;
 
 import static java.lang.reflect.Array.newInstance;
+//import javax.swing.plaf.basic.BasicSplitPaneUI.KeyboardUpLeftHandler;
 
 /**
  * A basic implementation of Associative Arrays with keys of type K
  * and values of type V. Associative Arrays store key/value pairs
  * and permit you to look up values by key.
  *
- * @author Your Name Here
+ * @author Maya Flynn
  * @author Samuel A. Rebelsky
  */
 public class AssociativeArray<K, V> {
@@ -57,14 +58,23 @@ public class AssociativeArray<K, V> {
    * Create a copy of this AssociativeArray.
    */
   public AssociativeArray<K, V> clone() {
-    return null; // STUB
+    AssociativeArray<K,V> toReturn = new AssociativeArray<K,V>();
+    toReturn.size = this.size;
+    for (int i = 0; i < size; i++) {
+      toReturn.pairs[i] = this.pairs[i];
+    } // for
+    return toReturn; // STUB
   } // clone()
 
   /**
    * Convert the array to a string.
    */
   public String toString() {
-    return "{}"; // STUB
+    String arrayPairs = this.pairs[0].toString();
+    for (int i = 1; i < size; i++) {
+      arrayPairs = arrayPairs + ", " + this.pairs[i].toString();
+    }
+    return "[" + arrayPairs + "]";
   } // toString()
 
   // +----------------+----------------------------------------------
@@ -76,7 +86,17 @@ public class AssociativeArray<K, V> {
    * get(key) will return value.
    */
   public void set(K key, V value) throws NullKeyException {
-    // STUB
+    if (value == null) {
+      throw new NullKeyException();
+    } // if null key given
+    try {
+      int i = find(key);
+      this.pairs[i].value = value;
+    } 
+    catch (KeyNotFoundException e) {
+      this.pairs[size] = new KVPair<>(key, value);
+      size++;
+    }
   } // set(K,V)
 
   /**
@@ -87,7 +107,8 @@ public class AssociativeArray<K, V> {
    *                              appear in the associative array.
    */
   public V get(K key) throws KeyNotFoundException {
-    return null; // STUB
+    int i = find(key);
+    return this.pairs[i].value;
   } // get(K)
 
   /**
@@ -95,7 +116,13 @@ public class AssociativeArray<K, V> {
    * return false for the null key.
    */
   public boolean hasKey(K key) {
-    return false; // STUB
+    try {
+      find(key);
+      return true;
+    }
+    catch (KeyNotFoundException f) {
+      return false;
+    }
   } // hasKey(K)
 
   /**
@@ -104,7 +131,13 @@ public class AssociativeArray<K, V> {
    * in the associative array, does nothing.
    */
   public void remove(K key) {
-    // STUB
+    try {
+      int i = find(key); 
+      this.pairs[i] = this.pairs[size - 1];
+      this.pairs[size -1] = new KVPair<>(); 
+      size--;
+    } // try
+    catch(KeyNotFoundException e) {}
   } // remove(K)
 
   /**
@@ -130,7 +163,12 @@ public class AssociativeArray<K, V> {
    * If no such entry is found, throws an exception.
    */
   int find(K key) throws KeyNotFoundException {
-    throw new KeyNotFoundException();   // STUB
+    for (int i = 0; i < size; i++) {
+      if (this.pairs[i].key == key) {
+        return i;
+      }
+    }
+    throw new KeyNotFoundException(); 
   } // find(K)
 
 } // class AssociativeArray
